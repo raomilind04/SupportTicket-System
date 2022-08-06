@@ -5,7 +5,7 @@ const PORT= process.env.PORT;
 const colors= require("colors"); 
 
 const connectDB= require("./config/db"); 
-const {errHandler}= require("./middlewear/errorMiddleWear"); 
+const {errHandler}= require("./middlewear/errorMiddleWare"); 
 
 connectDB(); 
 
