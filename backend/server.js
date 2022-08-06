@@ -2,7 +2,12 @@ const { urlencoded } = require("express");
 const express= require("express"); 
 const dotenv= require("dotenv").config(); 
 const PORT= process.env.PORT; 
+const colors= require("colors"); 
+
+const connectDB= require("./config/db"); 
 const {errHandler}= require("./middlewear/errorMiddleWear"); 
+
+connectDB(); 
 
 const app= express(); 
 app.use(express.json()); 
