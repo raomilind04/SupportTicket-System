@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { createTicket, reset } from "../features/tickets/ticketSlice";
 import Spinner from "../components/spinner";
+import BackButton from "../components/backButton";
 
 function NewTicket() {
   const { user } = useSelector((state) => state.auth);
@@ -20,28 +21,29 @@ function NewTicket() {
   const dispatch = useDispatch();
   const naviagte = useNavigate();
 
-  useEffect(()=> {
-    if(isError){
-        toast.error(message); 
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
     }
-    if(isSuccess){
-        dispatch(reset()); 
-        naviagte("/tickets")
+    if (isSuccess) {
+      dispatch(reset());
+      naviagte("/tickets");
     }
-    dispatch(reset()); 
-  }, [dispatch, isError, isSuccess, naviagte, message])
+    dispatch(reset());
+  }, [dispatch, isError, isSuccess, naviagte, message]);
 
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(createTicket({ product, description }));
   };
 
-  if(isLoading){
-    return <Spinner />
+  if (isLoading) {
+    return <Spinner />;
   }
 
   return (
     <>
+      <BackButton url="/" />
       <section className="heading">
         <h1>Create a New Ticket</h1>
         <p>Please fill out the form</p>
