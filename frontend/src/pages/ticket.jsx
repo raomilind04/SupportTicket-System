@@ -6,10 +6,15 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { getNotes, reset as notesReset } from "../features/notes/notesSlice";
+import NoteItem from "../components/noteItem";
 
 function Ticket() {
   const { ticket, isLoading, isSuccess, isError, message } = useSelector(
     (state) => state.tickets
+  );
+  const { notes, isLoading: notesIsLoading } = useSelector(
+    (state) => state.notes
   );
   const params = useParams();
   const navigate = useNavigate();
@@ -20,11 +25,11 @@ function Ticket() {
     if (isError) {
       toast.error(message);
     }
-
     dispatch(getTicket(ticketId));
+    dispatch(getNotes(ticketId));
   }, [isError, message, ticketId]);
 
-  if (isLoading) {
+  if (isLoading || notesIsLoading) {
     return <Spinner />;
   }
 
@@ -55,7 +60,11 @@ function Ticket() {
           <h3>Description of issue: </h3>
           <p>{ticket.description}</p>
         </div>
+        <h2>Notes</h2>
       </header>
+      {notes.map((note) => {
+        return <NoteItem key={note._id} note={note} />;
+      })}
       {ticket.status !== "closed" && (
         <button className="btn btn-block btn-danger" onClick={onTicketClose}>
           Close Ticket
