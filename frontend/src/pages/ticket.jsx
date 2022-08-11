@@ -6,7 +6,11 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { getNotes, reset as notesReset } from "../features/notes/notesSlice";
+import {
+  getNotes,
+  createNote,
+  reset as notesReset,
+} from "../features/notes/notesSlice";
 import NoteItem from "../components/noteItem";
 import Modal from "react-modal";
 import { FaPlus } from "react-icons/fa";
@@ -69,11 +73,11 @@ function Ticket() {
   const closeModal = () => {
     setModalIsOpen(false);
   };
-  const onNoteSubmit= (e)=> {
-    e.preventDefault(); 
-    console.log("submit"); 
-    closeModal(); 
-  }
+  const onNoteSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createNote({ noteText, ticketId }));
+    closeModal();
+  };
 
   return (
     <div className="ticket-page">
